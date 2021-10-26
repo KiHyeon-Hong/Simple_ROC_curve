@@ -42,6 +42,15 @@ function tnFunc(predicts, labels, mean, benchmark) {
     return num;
 }
 
+function area(x, y, size) {
+    let sum = 0;
+    for (let i = 0; i < size - 1; i++) {
+        sum += ((x[i + 1] - x[i]) * (y[i] + y[i + 1])) / 2;
+    }
+
+    return sum;
+}
+
 function simpleROC(predicts, labels, size) {
     const max = Math.max.apply(null, predicts);
     const min = Math.min.apply(null, predicts);
@@ -86,7 +95,69 @@ function simpleROC(predicts, labels, size) {
         reverveSp.push(1 - data);
     });
 
-    return [reverveSp.reverse(), se.reverse()];
+    let x = reverveSp.reverse();
+    let y = se.reverse();
+
+    let sum = area(x, y, size);
+
+    return [x, y, [sum]];
+}
+
+function simpleROC_reverse(predicts, labels, size) {
+    for (let i = 0; i < labels.length; i++) {
+        labels[i] = 1 - labels[i];
+    }
+
+    const max = Math.max.apply(null, predicts);
+    const min = Math.min.apply(null, predicts);
+
+    const labelMax = Math.max.apply(null, labels);
+    const labelMin = Math.min.apply(null, labels);
+    const mean = (labelMax + labelMin) / 2;
+
+    const interval = (max - min) / (size - 2);
+
+    let benchmarks = [];
+    for (let i = 0; i < size; i++) {
+        benchmarks.push(interval * i + min);
+    }
+
+    let tp = [];
+    let fp = [];
+    let fn = [];
+    let tn = [];
+    benchmarks.map((data, index) => {
+        tp.push(tpFunc(predicts, labels, mean, data));
+        fp.push(fpFunc(predicts, labels, mean, data));
+        fn.push(fnFunc(predicts, labels, mean, data));
+        tn.push(tnFunc(predicts, labels, mean, data));
+    });
+
+    // sensitivity
+    // specificity
+    let se = [];
+    let sp = [];
+
+    tp.map((data, index) => {
+        se.push(data / (data + fn[index]));
+    });
+
+    tn.map((data, index) => {
+        sp.push(data / (data + fp[index]));
+    });
+
+    let reverveSp = [];
+    sp.map((data) => {
+        reverveSp.push(1 - data);
+    });
+
+    let x = reverveSp.reverse();
+    let y = se.reverse();
+
+    let sum = area(x, y, size);
+
+    return [x, y, [sum]];
 }
 
 exports.simpleROC = simpleROC;
+exports.simpleROC_reverse = simpleROC_reverse;
