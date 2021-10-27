@@ -42,10 +42,10 @@ function tnFunc(predicts, labels, mean, benchmark) {
     return num;
 }
 
-function area(x, y, size) {
+function area(fpr, tpr, size) {
     let sum = 0;
     for (let i = 0; i < size - 1; i++) {
-        sum += ((x[i + 1] - x[i]) * (y[i] + y[i + 1])) / 2;
+        sum += ((fpr[i + 1] - fpr[i]) * (tpr[i] + tpr[i + 1])) / 2;
     }
 
     return sum;
@@ -151,12 +151,12 @@ function simpleROC_reverse(predicts, labels, size) {
         reverveSp.push(1 - data);
     });
 
-    let x = reverveSp.reverse();
-    let y = se.reverse();
+    let fpr = reverveSp.reverse();
+    let tpr = se.reverse();
 
-    let sum = area(x, y, size);
+    let sum = area(fpr, tpr, size);
 
-    return [x, y, [sum]];
+    return [fpr, tpr, [sum]];
 }
 
 exports.simpleROC = simpleROC;
