@@ -1,11 +1,24 @@
 {
-    "name": "simpleroc",
-    "version": "1.0.0",
-    "description": "",
+    "name": "simple_roc",
+    "version": "0.0.1",
+    "description": "Simple Receiver operating characteristic",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "",
-    "license": "ISC"
+    "author": "KiHyeon-Hong",
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/KiHyeon-Hong/Simple_ROC_curve.git"
+    },
+    "keywords": [
+        "ROC curve",
+        "Machine learning",
+        "Binary classification"
+    ],
+    "bugs": {
+        "url": "https://github.com/KiHyeon-Hong/Simple_ROC_curve/issues"
+    },
+    "homepage": "https://github.com/KiHyeon-Hong/Simple_ROC_curve#readme"
 }
