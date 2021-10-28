@@ -19,17 +19,17 @@ const SimpleROC = require(`simple_roc`);
 -   const [fpr, tpr, area] = SimpleROC.simpleROC(predicts, labels, size);
 -   const [fpr, tpr, area] = SimpleROC.simpleROC_reverse(predicts, labels, size);
 
-#### Input
+#### Input parameter
 
 -   predicts: Predicted value
 -   labels: Binary classification arrangement
--   size: ROC Return Size
+-   size: fpr, tpr return Size
 
-#### Output
+#### Output parameter
 
 -   fpr: False Positive Rate
 -   tpr: True Positive Rate
--   area: ROC area (0 ~ 1.0)
+-   area: ROC area (0(bad) ~ 1.0(good))
 
 ```bash
 const [fpr, tpr, area] = SimpleROC.simpleROC([23, 22, 21, 20, 19, 18, 17, 16, 15, 14], [1, 1, 1, 1, 1, 0, 0, 0, 1, 0], 10);
@@ -45,13 +45,13 @@ const [fpr, tpr, area] = SimpleROC.simpleROC_reverse([23, 22, 21, 20, 19, 18, 17
 [
     [0, 0, 0.16666666666666663, 0.16666666666666663, 0.16666666666666663, 0.16666666666666663, 0.33333333333333337, 0.5, 0.6666666666666667, 1], // fpr
     [0, 0.25, 0.25, 0.5, 0.75, 1, 1, 1, 1, 1], // tpr
-    [0.875], // area
+    [0.875], // ROC area
 ];
 ```
 
-### Graph
+### Graph example
 
--   Python
+-   Python code
 
 ```python
 import matplotlib.pyplot as plt
